@@ -5,30 +5,26 @@
     <!-- to start with - display the first product -->
     <!-- <product v-bind:product="products[0]"></product> -->
     
-    <p v-for="order in orders">
-      Product ID: {{ order.id }}  Quantity: {{ order.quantity }}
-    </p>
+    <order v-bind:orders="orders"></order>
+
 
     <!-- loop - display all the products -->
     <product 
-      v-for="productData in products" 
-      v-bind:key="productData.id" 
+      v-for="productData in products"  v-bind:key="productData.id" 
       v-bind:product="productData"
       v-bind:productApiUrl="productApiUrl"
-      v-on:product-ordered="productOrdered"
-      >
-    </product>
-
+      v-on:product-ordered="productOrdered" > </product>
   </div>
 </template>
 
 <script>
 import Product from './components/Product.vue'
+import Order from './components/Order.vue'
 
 export default {
   name: 'App',
   components: {
-    Product  // change this name to component's name 
+    Product, Order   // change this name to component's name 
   },
   data() {
     return {
@@ -46,7 +42,7 @@ export default {
             this.products = products  // set Vue data to response from API
         })
   },
-  methods: {
+  methods: {   // new method 
     productOrdered(productId, quantity) {
       let orderItem = { id: productId, quantity: quantity}
       this.orders.push(orderItem)
