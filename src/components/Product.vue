@@ -1,7 +1,7 @@
 <template>
     <div>  <!-- add a div -->
     
-  <h1>{{ product.productName }}</h1>
+  <h3>{{ product.productName }}</h3>
 
         <img v-bind:src="productApiUrl + 'img/' + product.image">
 
@@ -13,7 +13,7 @@
         <p>Quantity Available: {{ product.quantityAvailable }}</p>
 
         <ul>
-            <li v-for="feature in product.features">{{ feature }}</li>
+            <li v-for="feature in product.features" v-bind:key="feature">{{ feature }}</li>
         </ul>
 
         <div>
@@ -54,7 +54,13 @@ export default {
     },  // don't forget the comma
     methods: {
         order(product) {
-           this.$emit('product-ordered', this.product.id, this.quantity)
+            if (this.quantity <= 0) {
+                this.message = 'Quantity must be more than 0'
+            }
+            else {
+                this.message = ''
+                this.$emit('product-ordered', this.product.id, this.quantity)
+            }
         },
         decreaseQuantity(product) {   // include product argument
             this.message = ''   // product.message, change to this.message
@@ -99,5 +105,16 @@ export default {
     .error {
         color: red;
         font-weight: bold;
+    }
+
+    /* Center the list but make the bullet points line up */
+    ul { 
+        display: inline-block;
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    li {
+        list-style-position: inside;
     }
 </style>
