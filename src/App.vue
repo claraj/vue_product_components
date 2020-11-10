@@ -7,7 +7,6 @@
     
     <order v-bind:orders="orders"></order>
 
-
     <!-- loop - display all the products -->
     <product 
       v-for="productData in products"  v-bind:key="productData.id" 
@@ -44,8 +43,19 @@ export default {
   },
   methods: {   // new method 
     productOrdered(productId, quantity) {
-      let orderItem = { id: productId, quantity: quantity}
-      this.orders.push(orderItem)
+      // look up name in products array 
+      let productInfo = this.products.find( p => p.id == productId)
+      let orderItem = { product: productInfo, quantity: quantity}
+      
+      let existingOrderIndex = this.orders.findIndex( o => o.product.id == productId)
+      if (existingOrderIndex == -1 ) {
+        this.orders.push(orderItem)
+      }
+      else {
+        this.$set(this.orders, existingOrderIndex, orderItem)
+      }
+      // avoid duplicate orders for the same product 
+
     }
   }
 }
