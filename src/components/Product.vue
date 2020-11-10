@@ -20,10 +20,12 @@
             <div>
                 <p>The maximum quantity you can order is {{ product.maxQuantity }}</p>
                 <button v-on:click="decreaseQuantity(product)">-</button>
-                <input type="number" v-model="product.quantity" v-on:change="verifyQuantity(product)">
+                <!-- v-model quantity instead product.quantity -->
+                <input type="number" v-model="quantity" v-on:change="verifyQuantity(product)">
                 <button v-on:click="increaseQuantity(product)">+</button>
             </div>
-            <p class="error">{{ product.message }}</p>
+            <!-- show the message -->
+            <p class="error">{{ message }}</p>
     </div>
 
     <button v-on:click="order(product)">Order</button>
@@ -45,6 +47,51 @@ export default {
         return {
             // Vue component data 
             // must be a function 
+            message: '',
+            quantity: 0   // two data items
+        }
+    },  // don't forget the comma
+    methods: {
+        order(product) {
+            // todo we'll change the way this works
+            // let total = product.price * this.quantity
+            // let orderInfo = `Thank you, you have ordered ${product.quantity} of ${product.productName} at ${product.price} each. Total ${total}`
+            // alert(orderInfo)
+            // this.customerOrder.push(orderInfo)  //comment or remove
+            // todo how to prevent duplicate orders?
+        },
+        decreaseQuantity(product) {   // include product argument
+            this.message = ''   // product.message, change to this.message
+            let newQuantity = this.quantity - 1  // product.quantity change to this.quantity
+            if ( newQuantity < product.minQuantity) {
+                this.message = 'Minimum quantity is ' + product.minQuantity
+            }
+            else {
+                this.quantity = newQuantity
+            }
+        },
+        increaseQuantity(product) {
+            this.message = ''
+            let newQuantity = this.quantity + 1
+
+            if ( newQuantity > product.maxQuantity) {
+                this.message = 'Maximum quantity is ' + product.maxQuantity
+            }
+            else {
+                this.quantity = newQuantity
+            }      
+        },
+        verifyQuantity(product) {
+            this.message = ''
+
+            if (product.quantity < product.minQuantity ) {
+                this.message = 'Minimum quantity is ' + product.minQuantity
+                this.quantity = product.minQuantity
+            }
+            if (product.quantity > product.maxQuantity) {
+                this.message = 'Maximum quantity is ' + product.maxQuantity
+                this.quantity = product.maxQuantity
+            }
         }
     }
 }
@@ -53,5 +100,10 @@ export default {
 <style scoped>
     img {
         height: 300px;
+    }
+
+    .error {
+        color: red;
+        font-weight: bold;
     }
 </style>
