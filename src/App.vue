@@ -1,18 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+     <!-- Delete contents from here  leave the div id="app" -->
+    <h1>Shopping App</h1>  <!-- add a title -->
+    <!-- to start with - display the first product -->
+    <!-- <product v-bind:product="products[0]"></product> -->
+    
+    <!-- loop - display all the products -->
+    <product 
+      v-for="productData in products" 
+      v-bind:key="productData.id" 
+      v-bind:product="productData"
+      v-bind:productApiUrl="productApiUrl">
+    </product>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// todo - import Product and change filename 
+import Product from './components/Product.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    Product  // change this name to component's name 
+  },
+  data() {
+    return {
+      // copy this from products.html
+      productApiUrl: 'https://vue-2560-product.herokuapp.com/',
+      products: []  // this will be set by the API call in mounted
+    }
+  },
+  mounted() {    // copy from products.html 
+    let productsURL = this.productApiUrl + 'api/products'
+    fetch(productsURL)
+        .then( response => response.json())
+        .then( products => {
+            this.products = products  // set Vue data to response from API
+        })
+  },
 }
 </script>
 
