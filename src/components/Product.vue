@@ -41,6 +41,7 @@ export default {
     props: {
         product: Object,    // name: Type
         productApiUrl: String   // add new prop
+    
     },
     // data that the component generates
     data() {
@@ -53,7 +54,7 @@ export default {
     },  // don't forget the comma
     methods: {
         order(product) {
-           
+           this.$emit('product-ordered', this.product.id, this.quantity)
         },
         decreaseQuantity(product) {   // include product argument
             this.message = ''   // product.message, change to this.message
