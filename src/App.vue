@@ -5,7 +5,9 @@
     <h1>Shopping App</h1>  <!-- add a title -->
     
     <!-- Order component, v-bind the orders array -->
-    <order v-bind:orders="orders"></order>
+    <order 
+      v-bind:orders="orders"
+      v-on:delete-order="deleteOrder"></order>
 
     <h2>Product Catalog</h2>
 
@@ -51,7 +53,7 @@ export default {
     productOrdered(productId, quantity) {
 
       // look up name and other product info in products array 
-      let productInfo = this.products.find( p => p.id == productId)
+      let productInfo = this.products.find( product => product.id == productId)
 
       // new object with info about this order - the product object and quantity
       let orderItem = {product: productInfo, quantity: quantity}
@@ -75,6 +77,10 @@ export default {
         this.$set(this.orders, existingOrderIndex, orderItem)
       }
 
+    },
+    deleteOrder(order) {
+      // filter orders - keep all orders with a different ID to this product
+      this.orders = this.orders.filter( o => o.product.id != order.product.id)
     }
   }
 }

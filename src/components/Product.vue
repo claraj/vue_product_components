@@ -107,14 +107,11 @@ export default {
         font-weight: bold;
     }
 
-    /* Center the list but make the bullet points line up */
-    ul { 
-        display: inline-block;
-        text-align: left;
-        margin-left: auto;
-        margin-right: auto;
-    }
+/* get the bullet points next to the list items */
     li {
-        list-style-position: inside;
+         list-style-position: inside;
+         position: relative;
+         right: 20px;
     }
+
 </style>

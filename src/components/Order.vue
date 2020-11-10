@@ -6,16 +6,18 @@
 
     <p v-if="orders.length==0">No orders</p>
 
-    <table>
+    <table v-else>
         <tr>
             <th>Product ID</th>
             <th>Name</th>
             <th>Quantity</th>
+            <th>Delete?</th>
         </tr>
         <tr v-for="order in sortedOrdersByName" v-bind:key="order.product.id"> 
             <td>{{ order.product.id }}</td>  
             <td>{{ order.product.productName }} </td>
             <td>{{ order.quantity }}</td>
+            <td><button v-on:click="deleteOrder(order)">Delete</button></td>
         </tr>
     </table>
 
@@ -33,6 +35,13 @@ export default {
         sortedOrdersByName() {
             let copyOrders = [...this.orders]
             return copyOrders.sort( (o1, o2) => o1.product.name > o2.product.name ? -1 : 1)
+        }
+    },
+    methods: {
+        deleteOrder(order) {
+            if (confirm(`Delete your order for ${order.quantity} ${order.product.productName}, are you sure?`)) {
+                this.$emit('delete-order', order)
+            }
         }
     }
 }
@@ -54,5 +63,9 @@ td, th {
 table, th, td, tr {
     border: 1px lightgrey solid;
     border-collapse: collapse;
+}
+
+button {
+    background: red;
 }
 </style>
