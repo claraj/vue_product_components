@@ -53,12 +53,7 @@ export default {
     },  // don't forget the comma
     methods: {
         order(product) {
-            // todo we'll change the way this works
-            // let total = product.price * this.quantity
-            // let orderInfo = `Thank you, you have ordered ${product.quantity} of ${product.productName} at ${product.price} each. Total ${total}`
-            // alert(orderInfo)
-            // this.customerOrder.push(orderInfo)  //comment or remove
-            // todo how to prevent duplicate orders?
+           
         },
         decreaseQuantity(product) {   // include product argument
             this.message = ''   // product.message, change to this.message
@@ -73,7 +68,6 @@ export default {
         increaseQuantity(product) {
             this.message = ''
             let newQuantity = this.quantity + 1
-
             if ( newQuantity > product.maxQuantity) {
                 this.message = 'Maximum quantity is ' + product.maxQuantity
             }
@@ -83,12 +77,11 @@ export default {
         },
         verifyQuantity(product) {
             this.message = ''
-
-            if (product.quantity < product.minQuantity ) {
+            if (this.quantity < product.minQuantity ) {
                 this.message = 'Minimum quantity is ' + product.minQuantity
                 this.quantity = product.minQuantity
             }
-            if (product.quantity > product.maxQuantity) {
+            if (this.quantity > product.maxQuantity) {
                 this.message = 'Maximum quantity is ' + product.maxQuantity
                 this.quantity = product.maxQuantity
             }
